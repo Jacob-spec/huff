@@ -13,7 +13,11 @@ Character *create_character(char c) {
 
 void print_characters(Character *c, int number_of_characters) {
 	for (int i = 0; i < number_of_characters; i++) {
-		printf("Character: %c | %d\n", (c + (sizeof(Character) * i))->character, (c + (sizeof(Character) * i))->occurences);
+		if ( (c + (sizeof(Character) * i))->character == '\xff') {
+			printf("EOF\n");
+		} else {
+			printf("Character: %c | %d\n", (c + (sizeof(Character) * i))->character, (c + (sizeof(Character) * i))->occurences);
+		}
 	}
 }
 

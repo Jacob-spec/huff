@@ -23,13 +23,11 @@ char * read_file(const char *filename) {
 	}
 	int index = 0, buffer_size = BUFFER_INCREMENT, allocations = 1;
 	while (!feof(file)) {
-		if (index >= buffer_size) {
+		if ( (index + 1) == buffer_size) {
 			file_contents = (char *) realloc(file_contents, BUFFER_INCREMENT * (allocations + 1));
 			allocations++;
 		}
 		*(file_contents + index) = fgetc(file);
-		// null terminates the string for later	
-		*(file_contents + (index + 1)) = '\0';
 		index++;
 	}
 	return file_contents;
@@ -66,6 +64,7 @@ Compressor *add_character(Compressor *com, char c) {
 	com->number_of_characters++;
 	return com;
 }
+
 int get_character_index(Compressor *com, char c) {
 	for (int i = 0; i < com->number_of_characters; i++) {
 		if ((com->characters + (sizeof(Character) * i))->character == c) {
@@ -77,7 +76,8 @@ int get_character_index(Compressor *com, char c) {
 
 Compressor * find_letters_and_frequency(Compressor *com) {
 	int i = 0;
-	while (*(com->input + i) != '\0') {
+	// stop at EOF
+	while (*(com->input + i) != '\xff') {
 		if (is_first_occurence(com, *(com->input + i)) != 0) {
 			com = add_character(com, *(com->input + i));
 		} else {
