@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "character.h"
 #include "sort.h"
 
@@ -5,6 +6,20 @@
 typedef Sorter struct {
 	Character *characters;
 	int character_count;
+}
+
+Sorter *create_sorter(Character *characters, int character_count) {
+	Sorter *s = (Sorter *) malloc(sizeof(Sorter));
+	s->characters = characters;
+	s->character_count = character_count;
+	return s;
+}
+
+// can't remember whether this is a catastrophic bug
+Character *destroy_sorter(Sorter *s) {
+	Character *characters = s->characters;
+	free(s);
+	return characters;
 }
 
 Sorter *find_lowest(Sorter *s) {
@@ -19,3 +34,15 @@ Sorter *find_lowest(Sorter *s) {
 	}
 	return s;
 }
+
+Character *switch_array_elements(Characters *characters, int first_index, int second_index) {
+	Character *first_element = characters + sizeof(Character) * first_index;
+	Character *second_element = characters
+}
+
+
+
+
+
+
+

@@ -6,11 +6,11 @@ typedef struct Compressor Compressor;
 
 char *read_file(const char *filename);
 
-Compressor * create_compressor(const char *filename);
+Compressor *create_compressor(const char *filename);
 
 void destroy_compressor(Compressor *com);
 
-Compressor * first_occurence_of_character(Compressor *com, char c);
+Compressor *first_occurence_of_character(Compressor *com, char c);
 
 int is_first_occurence(Compressor *com, char c);
 

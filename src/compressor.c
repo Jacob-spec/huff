@@ -9,11 +9,11 @@
 typedef struct Compressor {
 	char *input;
 	// array of Characters which store the occurences as well
-	Character *characters;
+	Character **characters;
 	int number_of_characters;
 }Compressor;
 
-char * read_file(const char *filename) {
+char *read_file(const char *filename) {
 	char *file_contents = (char *) malloc(sizeof(char) * BUFFER_INCREMENT);
 
 	FILE *file = fopen(filename, "r");
@@ -33,24 +33,29 @@ char * read_file(const char *filename) {
 	return file_contents;
 }
 
-Compressor * create_compressor(const char *filename) {
+// internal character array is a block of memory which is a list of pointers to the actual Characters
+// -- allows for switching the places of array elements much easier while sorting
+Compressor *create_compressor(const char *filename) {
 	Compressor *c = (Compressor *) malloc(sizeof(Compressor));
 	c->input = read_file(filename);
 	printf("File: %s\n", c->input);
-	c->characters = (Character *) malloc(sizeof(Character) * ASCII_MAX);
+	c->characters = malloc(sizeof(void *) * ASCII_MAX);
 	c->number_of_characters = 0;
 	return c;
 }
 
 void destroy_compressor(Compressor *com) {
 	free(com->input);
+	for (int i = 0; i < com->number_of_characters; i++) {
+		destroy_character( *(com->characters + sizeof(void *) * i) );
+	}
 	free(com->characters);
 	free(com);
 }
 
 int is_first_occurence(Compressor *com, char c) {
 	for (int i = 0; i < com->number_of_characters; i++) {
-		if ((com->characters + sizeof(Character) * i)->character == c) {
+		if ( (*(com->characters + sizeof(void *) * i))->character == c) {
 			return 0;
 		}
 	}
@@ -58,23 +63,23 @@ int is_first_occurence(Compressor *com, char c) {
 }
 
 Compressor *add_character(Compressor *com, char c) {
+	printf("Add Character\n");
 	Character *new_char = create_character(c);
-	(com->characters + sizeof(Character) * com->number_of_characters)->character = new_char->character;
-	(com->characters + sizeof(Character) * com->number_of_characters)->occurences = new_char->occurences;
+	*(com->characters + sizeof(void *) * com->number_of_characters) = new_char;
 	com->number_of_characters++;
 	return com;
 }
 
 int get_character_index(Compressor *com, char c) {
 	for (int i = 0; i < com->number_of_characters; i++) {
-		if ((com->characters + (sizeof(Character) * i))->character == c) {
+		if ( (*(com->characters + sizeof(void *) * i))->character == c) {
 			return i;
 		}
 	} 	
 	return -1;
 }
 
-Compressor * find_letters_and_frequency(Compressor *com) {
+Compressor *find_letters_and_frequency(Compressor *com) {
 	int i = 0;
 	// stop at EOF
 	while (*(com->input + i) != '\xff') {
@@ -82,7 +87,7 @@ Compressor * find_letters_and_frequency(Compressor *com) {
 			com = add_character(com, *(com->input + i));
 		} else {
 			int character_index = get_character_index(com, *(com->input + i));
-			increment_character_occurence( com->characters + (sizeof(Character) * character_index));
+			increment_character_occurence( *(com->characters + sizeof(void *) * character_index) );
 		}	
 		i++;
 	}

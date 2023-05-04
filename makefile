@@ -1,12 +1,12 @@
 CC=gcc
-CFLAGS=-g -Wall
+CFLAGS=-g 
 OBJ=compressor.o character.o 
 
 %.o: src/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-lz: lz.c $(OBJ)
+huff: huff.c $(OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-	rm -f *.o lz
+	rm -f *.o huff

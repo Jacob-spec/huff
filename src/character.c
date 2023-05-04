@@ -11,12 +11,14 @@ Character *create_character(char c) {
 	return ch;
 }
 
-void print_characters(Character *c, int number_of_characters) {
+void print_characters(Character **c, int number_of_characters) {
 	for (int i = 0; i < number_of_characters; i++) {
-		if ( (c + (sizeof(Character) * i))->character == '\xff') {
+		if ( (*(c + sizeof(void *) * i))->character == '\xff') {
 			printf("EOF\n");
+		} else if ( (*(c + sizeof(void *) * i))->character == '\n') {
+			printf("Character: \\n | %d\n", (*(c + sizeof(void *) * i))->occurences);
 		} else {
-			printf("Character: %c | %d\n", (c + (sizeof(Character) * i))->character, (c + (sizeof(Character) * i))->occurences);
+			printf("Character: %c | %d\n", (*(c + sizeof(void *) * i))->character, (*(c + sizeof(void *) * i))->occurences);
 		}
 	}
 }

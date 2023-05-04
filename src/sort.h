@@ -4,7 +4,7 @@
 typedef struct Sorter Sorter;
 
 Sorter *create_sorter(Character *characters, int character_count);
-so
+Character *destroy_sorter(Sorter *s);
 
 Sorter *find_lowest(Sorter *s);
 
