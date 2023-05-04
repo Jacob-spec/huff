@@ -3,9 +3,8 @@
 
 typedef struct Sorter Sorter;
 
-Sorter *create_sorter(Character *characters, int character_count);
-Character *destroy_sorter(Sorter *s);
+Character **swap_array_elements(int start_index, int end_index, Character **characters);
 
-Sorter *find_lowest(Sorter *s);
+Character **sort_characters(Character **characters, int character_count);
 
 #endif

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "character.h"
 #include "compressor.h"
+#include "sort.h"
 
 #define BUFFER_INCREMENT 256
 #define ASCII_MAX 128
@@ -63,7 +64,6 @@ int is_first_occurence(Compressor *com, char c) {
 }
 
 Compressor *add_character(Compressor *com, char c) {
-	printf("Add Character\n");
 	Character *new_char = create_character(c);
 	*(com->characters + sizeof(void *) * com->number_of_characters) = new_char;
 	com->number_of_characters++;
@@ -91,6 +91,7 @@ Compressor *find_letters_and_frequency(Compressor *com) {
 		}	
 		i++;
 	}
+	com->characters = sort_characters(com->characters, com->number_of_characters);
 	print_characters(com->characters, com->number_of_characters);
 	return com;
 }

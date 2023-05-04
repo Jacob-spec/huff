@@ -3,46 +3,31 @@
 #include "sort.h"
 
 
-typedef Sorter struct {
-	Character *characters;
-	int character_count;
-}
-
-Sorter *create_sorter(Character *characters, int character_count) {
-	Sorter *s = (Sorter *) malloc(sizeof(Sorter));
-	s->characters = characters;
-	s->character_count = character_count;
-	return s;
-}
-
-// can't remember whether this is a catastrophic bug
-Character *destroy_sorter(Sorter *s) {
-	Character *characters = s->characters;
-	free(s);
+Character **swap_array_elements(int start_index, int end_index, Character **characters) {
+	Character *first_element = *(characters + start_index * sizeof(void *));
+	Character *second_element = *(characters + end_index * sizeof(void *));
+	*(characters + start_index * sizeof(void *)) = second_element;
+	*(characters + end_index * sizeof(void *)) = first_element;
 	return characters;
 }
 
-Sorter *find_lowest(Sorter *s) {
-	Character *lowest = s->characters;
+
+
+Character **sort_characters(Character **characters, int character_count) {
+	int current_minimum_index = 0;
 	for (int i = 0; i < character_count; i++) {
-		if ( (s->characters + sizeof(Character) * i)->occurences < lowest->occurences) {
-			lowest = (s->characters + sizeof(Character) * i);
-			Character *original_first_element = s->characters;
-			s->characters = lowest;
-			(s->characters + sizeof(Character) * i) = original_first_element;
-		}	
+		int current_lowest = current_minimum_index;
+		int min_occurences = (*(characters + current_minimum_index * sizeof(void *)))->occurences;
+		for (int j = current_minimum_index + 1; j < character_count; j++) {
+			Character *current_char = *(characters + j * sizeof(void *));
+			if (current_char->occurences < min_occurences) {
+				current_lowest = j;
+			}
+		}
+		if (current_lowest != current_minimum_index) {
+			characters = swap_array_elements(current_minimum_index, current_lowest, characters);
+		}
+		current_minimum_index++;
 	}
-	return s;
+	return characters;
 }
-
-Character *switch_array_elements(Characters *characters, int first_index, int second_index) {
-	Character *first_element = characters + sizeof(Character) * first_index;
-	Character *second_element = characters
-}
-
-
-
-
-
-
-
