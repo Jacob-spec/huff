@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-g 
-OBJ=compressor.o character.o sort.o
+OBJ=compressor.o character.o queue.o tree.o
 
 %.o: src/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<

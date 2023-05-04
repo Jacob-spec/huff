@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "character.h"
 #include "compressor.h"
-#include "sort.h"
+#include "tree.h"
 
 #define BUFFER_INCREMENT 256
 #define ASCII_MAX 128
