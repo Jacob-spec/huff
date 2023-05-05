@@ -1,17 +1,12 @@
 #include <stdlib.h>
-#include "tree.h";
+#include "tree.h"
 #include "character.h"
-#include "queue.h";
+#include "queue.h"
 
 #define PQ_CAPACITY 128
 
 // whole file has yet to be even compiled
 
-typdef struct PriorityQueue {
-	Node **nodes;
-	int node_count;
-	int capacity;
-}PriorityQueue;
 
 // takes the list of Character *, wraps them into Node's, and loads them
 // into the PriorityQueue
@@ -52,16 +47,17 @@ Node *dequeue(PriorityQueue *pq) {
 	}
 	// not very readable, but it basically fixes the gap left in the array that's caused
 	// by pulling an element out of it
-	for (int i = lowest_freq_index; i < (pq->node_count - 1); i++) {
-		pq->nodes + sizeof(void *) * i = *(pq->nodes + sizeof(void*) * (i + 1));
+	for (int i = lowest_freq_index; i < (pq->node_count - 1); i++) {	
+		*(pq->nodes + sizeof(void *) * i) = *(pq->nodes + sizeof(void*) * (i + 1));
 	}
+	return NULL;
 }
 
 // totally untested
 int find_index_of_lowest_frequency(PriorityQueue *pq) {
 	int index = 0;
 	for (int i = index; i < pq->node_count; i++) {
-		int current_node = *(pq->nodes + index * sizeof(void *));
+		Node *current_node = *(pq->nodes + index * sizeof(void *));
 		for (int j = index; j < pq->node_count; j++) {
 			if ( (*(pq->nodes + j * sizeof(void *)))->frequency < current_node->frequency) {
 				index = j;
@@ -69,5 +65,6 @@ int find_index_of_lowest_frequency(PriorityQueue *pq) {
 			}
 		}
 	} 
+	return index;
 }
 

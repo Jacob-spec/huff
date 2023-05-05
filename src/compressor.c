@@ -7,12 +7,6 @@
 #define BUFFER_INCREMENT 256
 #define ASCII_MAX 128
 
-typedef struct Compressor {
-	char *input;
-	// array of Characters which store the occurences as well
-	Character **characters;
-	int number_of_characters;
-}Compressor;
 
 char *read_file(const char *filename) {
 	char *file_contents = (char *) malloc(sizeof(char) * BUFFER_INCREMENT);

@@ -1,7 +1,15 @@
 #ifndef TREE_H_DEFINED
 #define TREE_H_DEFINED
+#include "character.h"
 
-typedef struct Node Node;
+// character == NULL represents an internal node where frequency is the sum of it's children
+typedef struct Node {
+	Character *character;
+	int frequency;	
+	struct Node *left;
+	struct Node *right;
+}Node;
+
 
 Node *create_node(Character *c, int frequency);
 void print_node(Node *n); 

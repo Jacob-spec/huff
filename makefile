@@ -1,4 +1,4 @@
-CC=gcc
+CC=clang
 CFLAGS=-g 
 OBJ=compressor.o character.o queue.o tree.o
 

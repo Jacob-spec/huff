@@ -1,14 +1,7 @@
 #include <stdlib.h>
-#include "tree.h"
+#include <stdio.h>
 #include "character.h"
-
-// character == NULL represents an internal node where frequency is the sum of it's children
-struct Node {
-	Character *character;
-	int frequency;	
-	struct Node *left;
-	struct Node *right;
-};
+#include "tree.h"
 
 Node *create_node(Character* c, int frequency) {
 	Node *new_node = (Node *) malloc(sizeof(Node));
