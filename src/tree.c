@@ -18,31 +18,26 @@ void destroy_node(Node *n) {
 }
 
 
-Character **swap_array_elements(int start_index, int end_index, Character **characters) {
-	Character *first_element = *(characters + start_index * sizeof(void *));
-	Character *second_element = *(characters + end_index * sizeof(void *));
-	*(characters + start_index * sizeof(void *)) = second_element;
-	*(characters + end_index * sizeof(void *)) = first_element;
+Character **insert_array_element(int element_index, int insertion_index, Character **characters) {
+	Character *element = *(characters + element_index * sizeof(void *));
+	for (int i = insertion_index; i <= element_index; i++) {
+		
+	}
 	return characters;
 }
 
 
-
+// not working
 Character **sort_characters(Character **characters, int character_count) {
 	int current_minimum_index = 0;
-	for (int i = 0; i < character_count; i++) {
-		int current_lowest = current_minimum_index;
-		int min_occurences = (*(characters + current_minimum_index * sizeof(void *)))->occurences;
-		for (int j = current_minimum_index + 1; j < character_count; j++) {
-			Character *current_char = *(characters + j * sizeof(void *));
-			if (current_char->occurences < min_occurences) {
-				current_lowest = j;
+	for (int i = 1; i < character_count; i++) {
+		int current_index = i;
+		Character *current_char = *(characters + sizeof(void *) * i);	
+		for (int j = 0; j < character_count; j++) {
+			if (current_char->frequency > (*(characters + sizeof(void *) * j))->frequency) {
+				
 			}
 		}
-		if (current_lowest != current_minimum_index) {
-			characters = swap_array_elements(current_minimum_index, current_lowest, characters);
-		}
-		current_minimum_index++;
 	}
 	return characters;
 }
